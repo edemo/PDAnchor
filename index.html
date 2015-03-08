@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<script>
+function sendId(theId) {
+  
+  var http = new XMLHttpRequest();
+  var url = "/";
+  var params = "<id>"+theId+"</id>";
+  http.open("POST", url, true);
+  
+  //Send the proper header information along with the request
+  http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  http.setRequestHeader("Content-length", params.length);
+  http.setRequestHeader("Connection", "close");
+  
+  http.onreadystatechange = function() {
+      if(http.readyState == 4 && http.status == 200) {
+          document.getElementById("output").innerHTML = http.responseText;
+                      }
+      if(http.readyState == 4 && http.status == 406) {
+          alert(http.responseText)
+      }
+  }
+  http.send(params);
+}
+
+function getHash() {
+    document.getElementById("output").innerHTML = '';
+    input = document.getElementById("input").value;
+    sendId(input)
+    
+}
+</script>
+</head>
+<body>
+
+<form>
+Személyi szám: <input id="input" type=text"></input>
+</form>
+Hash:<div id="output"></div>
+<button type="button" onclick="getHash()">Hash</button>
+
+</body>
+</html>
