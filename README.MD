@@ -13,3 +13,19 @@ anything about our voters.
 To avoid brute force and Denial of Service attacks,
 one IP can query the database only once in a minute.
 
+
+installation notes:
+
+- this program is single-threaded. limit apache to one threads. use
+
+StartServers 1
+ServerLimit 1
+ThreadLimit 1
+
+- map wsgi/app.fcgi to /anchor. if you git cloned to /usr/local/PDAnchor , use this:
+
+        WSGIScriptAlias /anchor /usr/local/PDAnchor/wsgi/app.fcgi
+        <Directory /usr/local/PDAnchor/wsgi>
+            Require all granted
+        </Directory>
+
