@@ -18,9 +18,9 @@ installation notes:
 
 - this program is single-threaded. limit apache to one threads. use
 
-    StartServers 1
-    ServerLimit 1
-    ThreadLimit 1
+        StartServers 1
+        ServerLimit 1
+        ThreadLimit 1
 
 - map wsgi/app.fcgi to /anchor. if you git cloned to /usr/local/PDAnchor , use this:
 
