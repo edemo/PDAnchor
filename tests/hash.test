@@ -6,7 +6,7 @@ from Hasher import Hasher
 class HashTest(unittest.TestCase):
     def test_Hash(self):
         hasher=Hasher()
-        self.assertEquals("7f51e53deaa216e8b22d2708cfb00384",hasher.hash("17203133959"))
+        self.assertEquals("56e3f782bb7e49101c504ffdfd7f1b23dabc39b41decc6c2052ebf770b1fe6618d1b1e81a406a2af9ad85c1f2ee197e52eb04deb5f68b9b7a2821ef92ddc20c1",hasher.hash("17203133959"))
 
 if __name__ == '__main__':
         unittest.main()

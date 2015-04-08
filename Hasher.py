@@ -2,7 +2,11 @@
 
 from tempfile import NamedTemporaryFile
 from subprocess import Popen, STDOUT, PIPE
-import md5
+import hashlib
+import config
+import os
+
+hashcmd = getattr(config,'hashcmd',"/usr/bin/pkcs15-crypt -s -p 0000 -i {0} --pkcs1 -o {1}")
 
 class NoSmartCardException(Exception):
     pass
@@ -24,10 +28,12 @@ class Hasher():
         self.callSmartCard()
         with open(self.outputFileName,"r") as outputFile:
             returned=outputFile.read()
-        return md5.new(returned).hexdigest()
+        os.remove(self.outputFileName)
+        os.remove(self.inputFileName)
+        return hashlib.sha512(returned).hexdigest()
 
     def callSmartCard(self):
-        cmd = "/usr/bin/pkcs15-crypt -s -p 0000 -i {0} --pkcs1 -o {1}".format(self.inputFileName, self.outputFileName)
+        cmd = hashcmd.format(self.inputFileName, self.outputFileName)
         proc = Popen(cmd.split(" "),stdout=PIPE, stderr=STDOUT)
         (stdout,dummy) = proc.communicate()
         if ( 0 != proc.returncode):

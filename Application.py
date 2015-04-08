@@ -2,6 +2,7 @@
 
 import sys
 import md5
+import traceback
 
 from xml.etree.ElementTree import XML
 
@@ -9,6 +10,9 @@ from wsgiref.simple_server import make_server
 
 from Guard import Guard
 from Hasher import Hasher
+
+import config
+excAnswer=getattr(config,'excAnswer',"<exception>{0}</exception>")
 
 class InputValidationException(Exception):
     def __init__(self):
@@ -33,7 +37,8 @@ class Application:
             reply = "<hash>{0}</hash>".format(hash)
             status = '200 OK'
         except:
-            reply = "<exception>{0}</exception>".format(sys.exc_info()[1])
+            excInfo=sys.exc_info()
+            reply = excAnswer.format(excInfo[1],traceback.format_exc())
             status = "406 Not Acceptable"
         response_headers = [('Content-Type', 'text/html'),
             ('Content-Length', str(len(reply))),

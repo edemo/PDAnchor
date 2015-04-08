@@ -1,7 +1,6 @@
 #!/usr/bin/python
 #coding=UTF-8
 
-import sqlite3
 from time import time
 
 class IncorrectIdException(Exception):
@@ -14,18 +13,8 @@ class TooFrequentguestException(Exception):
         super(Exception,self).__init__("Várj még egy percet")
 
 class Guard():
-    conn = None
+    conns = {}
 
-    def __init__(self):
-        self.getConn()
-
-    @classmethod
-    def getConn(klass):
-        if klass.conn == None:
-            klass.conn=sqlite3.connect('/var/run/PDAnchor/guard.db')
-            now = time()
-            klass.conn.execute("delete from log")
-        return klass.conn
     def check(self, caller, userID):
         self.checkID(userID)
         self.checkCaller(caller)
@@ -33,14 +22,10 @@ class Guard():
 
     def checkCaller(self, caller):
         now = time()
-        c=self.conn.cursor()
-        c.execute("select count(*) from log where id = ? and ts > ?",(caller, now - 60))
-        r = c.fetchone()
-        if r[0]  != 0:
-            c.close()
-            raise TooFrequentguestException()
-        c.execute("insert into log values (?,?)",(caller,now))
-        c.close()
+        if self.conns.has_key(caller):
+            if ( self.conns[caller] > now - 60 ):
+                raise TooFrequentguestException()
+        self.conns[caller] = now
 
     def checkID(self,userID):
         sum = 0
