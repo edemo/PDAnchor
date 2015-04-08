@@ -29,3 +29,4 @@ installation notes:
             Require all granted
         </Directory>
 
+- have a file named config.py somewhere in PYTHONPATH
