@@ -9,9 +9,10 @@ from xml.etree.ElementTree import XML
 from wsgiref.simple_server import make_server
 
 from Guard import Guard
-from Hasher import Hasher
 
 import config
+from Pkcs11Wrapper import Pkcs11Wrapper
+
 excAnswer=getattr(config,'excAnswer',"<exception>{0}</exception>")
 
 class InputValidationException(Exception):
@@ -21,7 +22,7 @@ class InputValidationException(Exception):
 class Application:
     def __init__(self):
         self.guard = Guard()
-        self.hasher = Hasher()
+        self.hasher = Pkcs11Wrapper()
 
     def application(self, environ, start_response):
         try:
@@ -30,11 +31,11 @@ class Application:
             request_body_size = 0
         request_body = environ['wsgi.input'].read(request_body_size)
         try:
-            id = self.getIdFromXml(request_body)
+            personalID = self.getIdFromXml(request_body)
             requestor = self.getIpHash(environ)
-            self.guard.check(requestor,id)
-            hash = self.hasher.hash(id)
-            reply = "<hash>{0}</hash>".format(hash)
+            self.guard.check(requestor,personalID)
+            digest = self.hasher.hash(personalID)
+            reply = "<hash>{0}</hash>".format(digest)
             status = '200 OK'
         except:
             excInfo=sys.exc_info()
@@ -54,8 +55,8 @@ class Application:
 
     def getIpHash(self,environ):
         ip=environ["REMOTE_ADDR"]
-        hash = md5.new(ip).hexdigest()
-        return hash
+        digest = md5.new(ip).hexdigest()
+        return digest
 
     def run(self):
         httpd = make_server('localhost', 8080, self.application)

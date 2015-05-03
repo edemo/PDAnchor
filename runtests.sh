@@ -2,7 +2,7 @@
 
 export PYTHONPATH=.:tests
 
-for i in tests/*.test
+for i in tests/*.py
 do
     $i
 done

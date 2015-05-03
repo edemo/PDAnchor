@@ -3,6 +3,7 @@
 import unittest
 from Application import Application
 from StringIO import StringIO
+import config
 
 class FakeServer:
     def __init__(self):
@@ -19,12 +20,14 @@ class ApplicationTest(unittest.TestCase):
         environ = {}
         environ['REMOTE_ADDR'] = '192.168.1.2'
         payload = """<id>17203133959</id>"""
-        input = StringIO(payload)
-        environ['wsgi.input'] = input
+        wsgiInput = StringIO(payload)
+        environ['wsgi.input'] = wsgiInput
         environ['CONTENT_LENGTH'] = "{0}".format(len(payload))
         fakeServer = FakeServer()
         response = Application().application(environ, fakeServer.start_response)
-        self.assertEquals(["<hash>56e3f782bb7e49101c504ffdfd7f1b23dabc39b41decc6c2052ebf770b1fe6618d1b1e81a406a2af9ad85c1f2ee197e52eb04deb5f68b9b7a2821ef92ddc20c1</hash>"],response);
+        self.assertEquals(
+            ["<hash>{0}</hash>".format(config.testSignature)],
+            response);
         self.assertEquals("200 OK", fakeServer.status)
         self.assertEquals(('Content-Length',"{0}".format(len(response[0]))), fakeServer.headers[1])
         self.assertEquals(('Access-Control-Allow-Origin',"*"), fakeServer.headers[2])
