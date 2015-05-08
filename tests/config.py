@@ -10,6 +10,6 @@ import sys
 from os.path import expanduser
 home = expanduser("~")
 sys.path.append(expanduser("~/.cardinfo"))
-from cardinfo import PIN  # @UnresolvedImport @UnusedImport
+from cardinfo import PIN,testSignature  # @UnresolvedImport @UnusedImport
 
 
