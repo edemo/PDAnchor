@@ -1,3 +1,5 @@
 #!/bin/bash
-PYTHONPATH=src:test python -m unittest discover -s tests -p '*.py'
+export PYTHONPATH=src
+export SOFTHSM_CONF=tests/softhsm.conf
+python -m unittest discover -s tests -p '*.py'
 

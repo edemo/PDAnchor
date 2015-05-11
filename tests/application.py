@@ -31,6 +31,21 @@ class ApplicationTest(unittest.TestCase):
         self.assertEquals("200 OK", fakeServer.status)
         self.assertEquals(('Content-Length',"{0}".format(len(response[0]))), fakeServer.headers[1])
         self.assertEquals(('Access-Control-Allow-Origin',"*"), fakeServer.headers[2])
+        self.assertEquals(('Content-Type',"text/xml"), fakeServer.headers[0])
+
+    def test_origin_header_in_bad_request(self):
+        environ = {}
+        environ['REMOTE_ADDR'] = '192.168.1.2'
+        payload = """<id>1720313395</id>"""
+        wsgiInput = StringIO(payload)
+        environ['wsgi.input'] = wsgiInput
+        environ['CONTENT_LENGTH'] = "{0}".format(len(payload))
+        fakeServer = FakeServer()
+        response = Application().application(environ, fakeServer.start_response)
+        self.assertEquals("406 Not Acceptable", fakeServer.status)
+        self.assertEquals(('Content-Length',"{0}".format(len(response[0]))), fakeServer.headers[1])
+        self.assertEquals(('Access-Control-Allow-Origin',"*"), fakeServer.headers[2])
+        self.assertEquals(('Content-Type',"text/xml"), fakeServer.headers[0])
 
 
 

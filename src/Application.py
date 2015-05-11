@@ -41,7 +41,7 @@ class Application:
             excInfo=sys.exc_info()
             reply = excAnswer.format(excInfo[1],traceback.format_exc())
             status = "406 Not Acceptable"
-        response_headers = [('Content-Type', 'text/html'),
+        response_headers = [('Content-Type', 'text/xml'),
             ('Content-Length', str(len(reply))),
             ('Access-Control-Allow-Origin', '*')]
         start_response(status, response_headers)

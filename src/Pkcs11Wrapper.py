@@ -1,9 +1,10 @@
 import PyKCS11
 import config
+
 class Pkcs11Wrapper(object):
     def __init__(self):
         self.p11lib = PyKCS11.PyKCS11Lib()
-        self.p11lib.load("/usr/lib/opensc-pkcs11.so")
+        self.p11lib.load(config.pkcs11lib)
 
 
     def initSession(self):
