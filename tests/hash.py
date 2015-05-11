@@ -9,6 +9,11 @@ class HashTest(unittest.TestCase):
         hasher=Pkcs11Wrapper()
         self.assertEquals(testSignature,hasher.hash("17203133959"))
 
+    def test_double_init(self):
+        hasher=Pkcs11Wrapper()
+        self.assertEquals(testSignature,hasher.hash("17203133959"))
+        self.assertEquals(testSignature,hasher.hash("17203133959"))
+        
 if __name__ == '__main__':
         unittest.main()
 

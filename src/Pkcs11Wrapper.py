@@ -9,7 +9,10 @@ class Pkcs11Wrapper(object):
 
     def initSession(self):
         self.session = self.p11lib.openSession(config.tokenSlot)
-        self.session.login(config.PIN)
+        try:
+            self.session.login(config.PIN)
+        except PyKCS11.PyKCS11Error:
+            pass
         self.key = self.session.findObjects()[config.tokenObjectIndex]
         self.mechanism = PyKCS11.Mechanism(PyKCS11.CKM_SHA256_RSA_PKCS, None) # @UndefinedVariable
 
