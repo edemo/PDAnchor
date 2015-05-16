@@ -25,6 +25,12 @@ class GuardTest(unittest.TestCase):
         with self.assertRaises(TooFrequentguestException):
             self.guard.check("aaa","17203133959")
 
+    def test_young_people_id(self):
+        self.guard.check("bbb","19903146758")
+
+    def test_very_young_people_id(self):
+        self.guard.check("ccc","40412044075")
+
 if __name__ == '__main__':
         unittest.main()
 

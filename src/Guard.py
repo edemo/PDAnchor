@@ -29,17 +29,27 @@ class Guard():
 
     def checkID(self,userID):
         summa = 0
+        youngsumma = 0
         pos = 1
         if len(userID) != 11:
             raise IncorrectIdException("nem 11 karakter")
         for i in userID[:-1]:
             self.checkDomain(i)
             summa += int(i)*pos
+            youngsumma += int(i)* (11-pos)
             pos += 1
         lastCh=userID[-1]
         self.checkDomain(lastCh)
-        if (summa % 11) != int(lastCh):
-                raise IncorrectIdException("nem stimmel az összeg: {0}".format(summa % 11))
+        birthday=int(userID[1:7])
+        firstNumber = int(userID[0])
+        if firstNumber==3 or firstNumber == 4:
+            birthday = birthday+1000000
+        if birthday <= 961231:
+            controlsum = summa
+        else:
+            controlsum = youngsumma
+        if (controlsum % 11) != int(lastCh):
+                raise IncorrectIdException("nem stimmel az összeg: {0}".format(controlsum % 11))
 
     def checkDomain(self, ch):
             if not ( ch in "1234567890"):
