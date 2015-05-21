@@ -1,13 +1,30 @@
 import PyKCS11
 import config
+import threading
+
+class ConCurrencyException(Exception):
+    pass
+
 
 class Pkcs11Wrapper(object):
-    def __init__(self):
+    singleton = None
+    lock = threading.Lock()
+    def __init__(self, key = None):
+        if key != "initializing":
+            raise ValueError("this is singleton")
         self.p11lib = PyKCS11.PyKCS11Lib()
         self.p11lib.load(config.pkcs11lib)
 
 
+    @classmethod
+    def getInstance(cls):
+        if cls.singleton == None:
+            cls.singleton = cls(key="initializing")
+        return cls.singleton
+        
     def initSession(self):
+        if not self.lock.acquire(False):
+            raise ConCurrencyException
         self.session = self.p11lib.openSession(config.tokenSlot)
         try:
             self.session.login(config.PIN)
@@ -15,7 +32,6 @@ class Pkcs11Wrapper(object):
             pass
         self.key = self.session.findObjects()[config.tokenObjectIndex]
         self.mechanism = PyKCS11.Mechanism(PyKCS11.CKM_SHA256_RSA_PKCS, None) # @UndefinedVariable
-
 
     def sign(self, data):
         signature = self.session.sign(self.key, data, self.mechanism)
@@ -26,7 +42,15 @@ class Pkcs11Wrapper(object):
     
     def cleanUp(self):
         self.session.closeSession()
+        self.lock.release()
         
+
+    def _hash(self, data):
+        data = self.sign(data)
+        return data
+
     def hash(self, data):
         self.initSession()
-        return self.sign(data)
+        data = self._hash(data)
+        self.cleanUp()
+        return data

@@ -22,7 +22,7 @@ class InputValidationException(Exception):
 class Application:
     def __init__(self):
         self.guard = Guard()
-        self.hasher = Pkcs11Wrapper()
+        self.hasher = Pkcs11Wrapper.getInstance()
 
     def application(self, environ, start_response):
         try:
