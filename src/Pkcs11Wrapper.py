@@ -1,6 +1,7 @@
 import PyKCS11
 import config
 import threading
+from Crypto.Hash.SHA512 import SHA512Hash
 
 class ConCurrencyException(Exception):
     pass
@@ -46,7 +47,9 @@ class Pkcs11Wrapper(object):
         
 
     def _hash(self, data):
+        data = SHA512Hash(data).digest()
         data = self.sign(data)
+        data = SHA512Hash(data).hexdigest()
         return data
 
     def hash(self, data):

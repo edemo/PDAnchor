@@ -1,19 +1,19 @@
 #!/usr/bin/python
 
 import unittest
-from config import testSignature
+from config import testHash
 from Pkcs11Wrapper import Pkcs11Wrapper
 import time
 
 class HashTest(unittest.TestCase):
     def test_Hash(self):
         hasher=Pkcs11Wrapper.getInstance()
-        self.assertEquals(testSignature,hasher.hash("17203133959"))
+        self.assertEquals(testHash,hasher.hash("17203133959"))
 
     def test_double_init(self):
         hasher=Pkcs11Wrapper.getInstance()
-        self.assertEquals(testSignature,hasher.hash("17203133959"))
-        self.assertEquals(testSignature,hasher.hash("17203133959"))
+        self.assertEquals(testHash,hasher.hash("17203133959"))
+        self.assertEquals(testHash,hasher.hash("17203133959"))
         
     def test_time_hash(self):
         hasher = Pkcs11Wrapper.getInstance()

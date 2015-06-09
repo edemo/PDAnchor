@@ -26,7 +26,7 @@ class ApplicationTest(unittest.TestCase):
         fakeServer = FakeServer()
         response = Application().application(environ, fakeServer.start_response)
         self.assertEquals(
-            ["<hash>{0}</hash>".format(config.testSignature)],
+            ["<hash>{0}</hash>".format(config.testHash)],
             response);
         self.assertEquals("200 OK", fakeServer.status)
         self.assertEquals(('Content-Length',"{0}".format(len(response[0]))), fakeServer.headers[1])
