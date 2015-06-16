@@ -12,6 +12,7 @@ from Guard import Guard
 
 import config
 from Pkcs11Wrapper import Pkcs11Wrapper
+from Reply import Reply
 
 excAnswer=getattr(config,'excAnswer',"<exception>{0}</exception>")
 
@@ -24,28 +25,36 @@ class Application:
         self.guard = Guard()
         self.hasher = Pkcs11Wrapper.getInstance()
 
-    def application(self, environ, start_response):
+    def computeReply(self, environ, request_body):
+        personalID = self.getIdFromXml(request_body)
+        requestor = self.getIpHash(environ)
+        self.guard.check(requestor, personalID)
+        digest = self.hasher.hash(personalID)
+        message = "<hash>{0}</hash>".format(digest)
+        status = '200 OK'
+        return Reply(status, message)
+
+    def createErrorReply(self):
+        excInfo = sys.exc_info()
+        message = excAnswer.format(excInfo[1], traceback.format_exc())
+        status = "406 Not Acceptable"
+        return Reply(status, message)
+
+    def getRequestSize(self, environ):
         try:
             request_body_size = int(environ.get('CONTENT_LENGTH', 0))
         except (ValueError):
             request_body_size = 0
+        return request_body_size
+
+    def application(self, environ, start_response):
+        request_body_size = self.getRequestSize(environ)
         request_body = environ['wsgi.input'].read(request_body_size)
         try:
-            personalID = self.getIdFromXml(request_body)
-            requestor = self.getIpHash(environ)
-            self.guard.check(requestor,personalID)
-            digest = self.hasher.hash(personalID)
-            reply = "<hash>{0}</hash>".format(digest)
-            status = '200 OK'
+            reply = self.computeReply(environ, request_body)
         except:
-            excInfo=sys.exc_info()
-            reply = excAnswer.format(excInfo[1],traceback.format_exc())
-            status = "406 Not Acceptable"
-        response_headers = [('Content-Type', 'text/xml'),
-            ('Content-Length', str(len(reply))),
-            ('Access-Control-Allow-Origin', '*')]
-        start_response(status, response_headers)
-        return [reply]
+            reply = self.createErrorReply()
+        return reply.webReply(start_response)
 
     def getIdFromXml(self,body):
         tree = XML(body)
@@ -63,7 +72,5 @@ class Application:
         while True:
             httpd.handle_request()
 
-
 if __name__ == '__main__':
     Application().run()
-

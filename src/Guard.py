@@ -30,42 +30,51 @@ class Guard():
                 raise TooFrequentguestException()
         self.conns[caller] = now
 
-
     def checkIdLen(self, userID):
         if len(userID) != 11:
             raise IncorrectIdException("nem 11 karakter")
 
-    def chooseSumma(self, userID, summa, youngsumma):
+    def isYoungSumma(self, userID):
         birthday = int(userID[1:7])
         firstNumber = int(userID[0])
         if firstNumber == 3 or firstNumber == 4:
             birthday = birthday + HUNDRED_YEARS
         if birthday <= LAST_DAY_OF_1996:
-            controlsum = summa
-        else:
-            controlsum = youngsumma
-        return controlsum
+            return False
+        return True
 
-    def computeSums(self, userID):
+    def computeOldSumma(self, userID):
         summa = 0
+        pos = 1
+        for i in userID[:-1]:
+            summa += int(i) * pos
+            pos += 1
+        return summa
+
+    def checkAllDomain(self, userID):
+        for i in userID:
+            self.checkDomain(i)
+
+    def computeYoungSumma(self, userID):
         youngsumma = 0
         pos = 1
         for i in userID[:-1]:
-            self.checkDomain(i)
-            summa += int(i) * pos
             youngsumma += int(i) * (11 - pos)
             pos += 1
-        return summa, youngsumma
+        return youngsumma
 
     def computeChecksum(self, userID):
-        summa, youngsumma = self.computeSums(userID)
-        controlsum = self.chooseSumma(userID, summa, youngsumma)
-        return controlsum
+        if self.isYoungSumma(userID):
+            return self.computeYoungSumma(userID)
+        return self.computeOldSumma(userID)
+
+    def inputCheck(self, userID):
+        self.checkIdLen(userID)
+        self.checkAllDomain(userID)
 
     def checkID(self,userID):
-        self.checkIdLen(userID)
+        self.inputCheck(userID)
         lastCh=userID[-1]
-        self.checkDomain(lastCh)
         controlsum = self.computeChecksum(userID)
         if (controlsum % 11) != int(lastCh):
                 raise IncorrectIdException("nem stimmel az összeg: {0}".format(controlsum % 11))

@@ -16,7 +16,6 @@ class Pkcs11Wrapper(object):
         self.p11lib = PyKCS11.PyKCS11Lib()
         self.p11lib.load(config.pkcs11lib)
 
-
     @classmethod
     def getInstance(cls):
         if cls.singleton == None:
