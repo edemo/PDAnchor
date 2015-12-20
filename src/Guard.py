@@ -2,6 +2,7 @@
 #coding=UTF-8
 
 from time import time
+import config
 
 HUNDRED_YEARS = 1000000
 LAST_DAY_OF_1996 = 961231
@@ -26,7 +27,7 @@ class Guard():
     def checkCaller(self, caller):
         now = time()
         if self.conns.has_key(caller):
-            if ( self.conns[caller] > now - 60 ):
+            if ( self.conns[caller] > now - getattr(config,"minimum_time",60) ):
                 raise TooFrequentguestException()
         self.conns[caller] = now
 
