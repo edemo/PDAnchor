@@ -3,6 +3,7 @@
 
 from time import time
 import config
+import re
 
 HUNDRED_YEARS = 1000000
 LAST_DAY_OF_1996 = 961231
@@ -12,6 +13,11 @@ class IncorrectIdException(Exception):
         msg = "Ez nem személyi szám: {0}".format(why)
         super(Exception,self).__init__(msg)
 
+class IncorrectNameException(Exception):
+    def __init__(self, why):
+        msg = "Ez nem anyja neve: {0}".format(why)
+        super(Exception,self).__init__(msg)
+
 class TooFrequentguestException(Exception):
     def __init__(self):
         super(Exception,self).__init__("Várj még egy percet")
@@ -19,10 +25,17 @@ class TooFrequentguestException(Exception):
 class Guard():
     conns = {}
 
-    def check(self, caller, userID):
-        self.checkID(userID)
+    def check(self, caller, req):
+        self.checkName(req.mothername)
+        self.checkID(req.id)
         self.checkCaller(caller)
         return True
+
+    def checkName(self, motherName):
+        if re.compile(r"[^abcdefghijklmnopqrstuvwxyz]").search(motherName):
+            raise IncorrectNameException("nem csupa kisbetu")
+        if len(motherName) > 50:
+            raise IncorrectNameException("túl hosszú")
 
     def checkCaller(self, caller):
         now = time()

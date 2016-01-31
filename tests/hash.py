@@ -8,12 +8,12 @@ import time
 class HashTest(unittest.TestCase):
     def test_Hash(self):
         hasher=Pkcs11Wrapper.getInstance()
-        self.assertEquals(testHash,hasher.hash("17203133959"))
+        self.assertEquals(testHash,hasher.hash("17203133959testname"))
 
     def test_double_init(self):
         hasher=Pkcs11Wrapper.getInstance()
-        self.assertEquals(testHash,hasher.hash("17203133959"))
-        self.assertEquals(testHash,hasher.hash("17203133959"))
+        self.assertEquals(testHash,hasher.hash("17203133959testname"))
+        self.assertEquals(testHash,hasher.hash("17203133959testname"))
         
     def test_time_hash(self):
         hasher = Pkcs11Wrapper.getInstance()

@@ -14,11 +14,16 @@ import config
 from Pkcs11Wrapper import Pkcs11Wrapper
 from Reply import Reply
 
+class record(object):
+    def __init__(self,identity=None,name=None):
+        self.id=identity
+        self.mothername=name
+
 excAnswer=getattr(config,'excAnswer',"<exception>{0}</exception>")
 
 class InputValidationException(Exception):
     def __init__(self):
-        super().__init__("Invalid input")
+        self.value="Invalid Input"
 
 class Application:
     def __init__(self):
@@ -26,10 +31,10 @@ class Application:
         self.hasher = Pkcs11Wrapper.getInstance()
 
     def computeReply(self, environ, request_body):
-        personalID = self.getIdFromXml(request_body)
+        ret = self.getRequestFromXml(request_body)
         requestor = self.getIpHash(environ)
-        self.guard.check(requestor, personalID)
-        digest = self.hasher.hash(personalID)
+        self.guard.check(requestor, ret)
+        digest = self.hasher.hash(ret.id+ret.mothername)
         message = "<hash>{0}</hash>".format(digest)
         status = '200 OK'
         return Reply(status, message)
@@ -56,11 +61,19 @@ class Application:
             reply = self.createErrorReply()
         return reply.webReply(start_response)
 
-    def getIdFromXml(self,body):
+    def getRequestFromXml(self,body):
         tree = XML(body)
-        if 'id' != tree.tag:
+        if 'request' != tree.tag:
             raise InputValidationException()
-        return tree.text
+        r = record()
+        for tag in tree.getchildren():
+            if tag.tag in ['id','mothername']:
+                setattr(r,tag.tag,tag.text)
+        if None is getattr(r,'id',None):
+            raise InputValidationException()            
+        if None is getattr(r,'mothername',None):
+            raise InputValidationException()            
+        return r
 
     def getIpHash(self,environ):
         ip=environ["REMOTE_ADDR"]
