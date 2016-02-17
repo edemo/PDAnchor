@@ -11,3 +11,10 @@ killserver:
 
 clean:
 	rm -rf tmp
+
+runcryptoserver:
+	/sbin/start-stop-daemon --start --background  --pidfile  /tmp/cryptoserver.pid --make-pidfile -d $(PWD) --exec cryptoserver/cryptoserver.py -- --module /usr/lib/softhsm/libsofthsm.so -d d34db33f -e SOFTHSM_CONF=tests/softhsm.conf
+
+stopcryptoserver:
+	/sbin/start-stop-daemon --stop --pidfile  /tmp/cryptoserver.pid
+
