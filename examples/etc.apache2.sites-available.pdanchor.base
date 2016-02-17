@@ -1,0 +1,17 @@
+	ServerAdmin webmaster@localhost
+	DocumentRoot /usr/local/PDAnchor
+	alias /filesystem /
+	WSGIScriptAlias /anchor /usr/local/PDAnchor/wsgi/app.fcgi
+	<Directory />
+		DirectoryIndex none.none
+		Order allow,deny
+		Allow from all
+	</Directory>
+
+	<Directory /usr/local/PDAnchor>
+		DirectoryIndex index.html
+	</Directory>
+
+	<Directory /usr/local/PDAnchor/wsgi>
+		Require all granted
+	</Directory>
