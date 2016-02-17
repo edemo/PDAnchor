@@ -23,8 +23,10 @@ dependencies include:
  - apache2
  - python-crypto
  - opensc
- - libapache-mod-wsgi
+ - libapache2-mod-wsgi
  - softhsm (only for testing)
+ - make (only for testing)
+ - wget (only for testing)
 
 See Makefile  and the testserver directory for hints
 

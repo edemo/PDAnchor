@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <script>
-function sendId(theId) {
+function sendId(theId, theName) {
   
   var http = new XMLHttpRequest();
   var url = "/anchor";
-  var params = "<id>"+theId+"</id>";
+  var params = "<request><id>"+theId+"</id><mothername>"+theName+"</mothername></request>";
+  document.getElementById("output").innerHTML = params;
   http.open("POST", url, true);
   
   //Send the proper header information along with the request
@@ -29,7 +30,8 @@ function sendId(theId) {
 function getHash() {
     document.getElementById("output").innerHTML = '';
     input = document.getElementById("input").value;
-    sendId(input)
+    mothername = document.getElementById("mothername").value;
+    sendId(input,mothername)
     
 }
 </script>
@@ -37,7 +39,8 @@ function getHash() {
 <body>
 
 <form>
-Személyi szám: <input id="input" type=text"></input>
+Személyi szám: <input id="input" type=text"></input><br/>
+Anyja neve: <input id="mothername" type=text"></input>
 </form>
 Hash:<div id="output"></div>
 <button type="button" onclick="getHash()">Hash</button>
