@@ -28,5 +28,5 @@ dependencies include:
  - make (only for testing)
  - wget (only for testing)
 
-See Makefile  and the testserver directory for hints
+See Makefile, the examples directory and the testserver directory for hints
 
