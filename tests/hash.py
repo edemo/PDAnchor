@@ -7,30 +7,25 @@ import time
 
 class HashTest(unittest.TestCase):
     def test_Hash(self):
-        hasher=Pkcs11Wrapper.getInstance()
+        hasher=Pkcs11Wrapper()
         self.assertEquals(testHash,hasher.hash("17203133959testname"))
 
     def test_double_init(self):
-        hasher=Pkcs11Wrapper.getInstance()
+        hasher=Pkcs11Wrapper()
         self.assertEquals(testHash,hasher.hash("17203133959testname"))
         self.assertEquals(testHash,hasher.hash("17203133959testname"))
         
     def test_time_hash(self):
-        hasher = Pkcs11Wrapper.getInstance()
+        hasher = Pkcs11Wrapper()
         now = time.time()
-        hasher.initSession()
-        print "initialisation elapsed: {0}".format(time.time()-now)
         times = []
         for j in range(10):  # @UnusedVariable
             now = time.time()
             for i in range(10):  # @UnusedVariable
-                hasher._hash("17203133959")
+                self.assertEqual(hasher.hash("17203133959testname"),testHash)
             elapsed = time.time() - now
             times.append(elapsed)
             print "one round elapsed: {0}".format(elapsed)
-        print times
-        hasher.cleanUp()
-            
         
 if __name__ == '__main__':
         unittest.main()

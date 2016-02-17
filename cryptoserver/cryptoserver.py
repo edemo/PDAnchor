@@ -76,15 +76,14 @@ def main(argv=None):
             print (name,value)
             os.environ[name]=value
         syslog.openlog("cryptoserver", logoption=syslog.LOG_PID)
-        syslog.syslog(str.format("cryptoserver started at {0} {1}",opts.host,opts.port))
+        syslog.syslog("cryptoserver started at {0} {1}".format(opts.host,opts.port))
         server.main(opts)
 
-    except Exception:
+    except:
         excString = traceback.format_exc()
         syslog.syslog(excString)
         print excString
-        return 2
-    syslog.syslog(str.format("cryptoserver stopped at {0} {1}",opts.host,opts.port))
+    syslog.syslog("cryptoserver stopped at {0} {1}".format(opts.host,opts.port))
 
 
 if __name__ == "__main__":

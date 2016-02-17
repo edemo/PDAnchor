@@ -28,7 +28,7 @@ class InputValidationException(Exception):
 class Application:
     def __init__(self):
         self.guard = Guard()
-        self.hasher = Pkcs11Wrapper.getInstance()
+        self.hasher = Pkcs11Wrapper()
 
     def computeReply(self, environ, request_body):
         ret = self.getRequestFromXml(request_body)
