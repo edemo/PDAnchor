@@ -13,6 +13,7 @@ from Guard import Guard
 import config
 from Pkcs11Wrapper import Pkcs11Wrapper
 from Reply import Reply
+from syslog import syslog
 
 class record(object):
     def __init__(self,identity=None,name=None):
@@ -27,6 +28,7 @@ class InputValidationException(Exception):
 
 class Application:
     def __init__(self):
+        syslog("application init")
         self.guard = Guard()
         self.hasher = Pkcs11Wrapper()
 

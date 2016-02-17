@@ -1,6 +1,6 @@
-all: test stopcryptoserver
+all: test killserver
 
-test: runcryptoserver
+test: runcryptoserver runserver
 	./runtests.sh
 
 runserver: runcryptoserver

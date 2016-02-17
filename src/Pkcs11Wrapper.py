@@ -1,6 +1,8 @@
 import config
 from Crypto.Hash.SHA512 import SHA512Hash
 import socket
+import traceback
+import syslog
 
 
 class Pkcs11Wrapper(object):
@@ -10,6 +12,9 @@ class Pkcs11Wrapper(object):
             sock.connect((config.cryptoserver_host,config.cryptoserver_port))  # @UndefinedVariable
             sock.sendall(data)
             response = sock.recv(1024)
+        except:
+            syslog.syslog(traceback.format_exc())
+            raise
         finally:
             sock.close()
         s=""
