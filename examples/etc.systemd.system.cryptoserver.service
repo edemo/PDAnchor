@@ -1,0 +1,12 @@
+[Unit]
+Description=PDAnchor cryptoserver
+After=network.target auditd.service
+
+[Service]
+ExecStart=/usr/local/PDAnchor/cryptoserver/cryptoserver.py --module /usr/lib/arm-linux-gnueabihf/pkcs11/opensc-pkcs11.so -d c2df45e1dedbe3a2d0d19638a8f7144abbfcaec7 -M SHA256-RSA-PKCS
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+Alias=cryptoserver.service
