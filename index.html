@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8" />
+<title>TITKOS KÓD GÉP</title>
 <script>
 function sendId(theId, theName) {
   
@@ -31,7 +32,10 @@ function getHash() {
     document.getElementById("output").innerHTML = '';
     input = document.getElementById("input").value;
     mothername = document.getElementById("mothername").value;
-    sendId(input,mothername)
+    accept = document.getElementById("accept");
+    if (accept.checked) {
+     sendId(input,mothername);
+    }
     
 }
 </script>
@@ -40,10 +44,34 @@ function getHash() {
 
 <form>
 Személyi szám: <input id="input" type=text"></input><br/>
-Anyja neve: <input id="mothername" type=text"></input>
+Anyja neve: <input id="mothername" type=text"></input><br/>
+<input id="accept" type="checkbox" name="accept" value="accept">Elfogadom a felhasználási feltételeket<br/>
 </form>
 Hash:<div id="output"></div>
-<button type="button" onclick="getHash()">Hash</button>
+<button type="button" onclick="getHash()">A kód előállítása</button>
+
+
+
+
+<h2>Mi ez?</h2>
+Ez egy számoló gép. Itt készíthetsz magadnak  a fenti két személyes adatodból egy titkos kódot: 
+<ul>
+<li>ami a te tulajdonod lesz</li>
+<li>amire vigyáznod kell, tehát csak olyan weboldalnak személynek add meg amiben /akiben megbízol,</li>
+<li>ami egy olyan más által  nem vissza fejthető karktersorozat lesz, ami biztosít számodra egy
+digitális személyazonosságot, anélkül, hogy az eredeti adataid kiderülnének,
+ugyanakkor te bármikor tudod bizonyítani hogy ez a tiéd- ezzel a géppel bármikor előállíthatod újra .</li>
+</ul>
+
+<h2>Felhasználási Feltételek</h2>
+
+Ez egy számoló gép, tehát semmilyen adatot nem őriz meg rólad. 
+
+Bármikor használhatod még egyszer (lásd lentebb). 
+
+Csak a saját adataiddal használhatod. <br>
+
+Ezt a gépet egy gépről percenként legfeljebb egyszer lehet használni. Ezt az IP cím alapján ellenőrizzük.
 
 </body>
 </html>
