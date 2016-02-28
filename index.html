@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8" />
-<title>TITKOS KÓD GÉP</title>
-<script>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="UTF-8">
+		<title>TITKOS KÓD GÉP</title>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+		<script>
 function sendId(theId, theName) {
   
   var http = new XMLHttpRequest();
@@ -38,40 +40,201 @@ function getHash() {
     }
     
 }
-</script>
-</head>
-<body>
+		</script>
+		<style>
+*, *:after, *:before {
+    box-sizing: inherit;
+}
+html {
+    box-sizing: border-box;
+    font-size: 62.5%;
+}
+body {
+    color: #606c76;
+    font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+    font-size: 1.6em;
+    font-weight: 300;
+    letter-spacing: .01em;
+    line-height: 1.6;
+}
+pre, xmp, plaintext, listing {
+    display: block;
+    font-family: monospace;
+    white-space: pre;
+    margin: 1em 0px 1em;
+}
+pre {
+    background: #f4f5f6;
+    border-left: .3rem solid #4D7ACA;
+    font-family: "Menlo","Consolas","Bitstream Vera Sans Mono","DejaVu Sans Mono","Monaco",monospace;
+}
+pre, blockquote, dl, figure, table, p, ul, ol, form {
+    margin-bottom: 2.5rem;
+}
+pre, blockquote, dl, figure, table, p, ul, ol, form {
+    margin-bottom: 2.5rem;
+}
+input, textarea, select, fieldset {
+    margin-bottom: 1.5rem;
+}
+fieldset {
+    border-width: 0;
+    padding: 0;
+}
+label, legend {
+    font-size: 1.6rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: .5rem;
+}
+input[type='email'], input[type='number'], input[type='password'], input[type='search'], input[type='tel'], input[type='text'], input[type='url'], textarea, select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    border: .1rem solid #d1d1d1;
+    border-radius: .4rem;
+    box-shadow: none;
+    height: 3.8rem;
+    padding: .6rem 1rem;
+    width: 100%;
+}
+.button, button, input[type='button'], input[type='reset'], input[type='submit'] {
+    background-color: #4D7ACA;
+    border: .1rem solid #4D7ACA;
+    border-radius: .4rem;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    height: 3.8rem;
+    letter-spacing: .1rem;
+    line-height: 3.8rem;
+    padding: 0 3rem;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+.button:hover, button:hover, input[type='button']:hover, input[type='reset']:hover, input[type='submit']:hover {
+    background-color: #606c76;
+    border-color: #606c76;
+    color: #fff;
+    outline: 0;
+}
+.button:active, button:active, input[type='button']:active, input[type='reset']:active, input[type='submit']:active {
+    background-color: #707c76;
+    border-color: #606c76;
+    color: #fff;
+    outline: 0;
+	padding-top:1px
+}
+.wrapper {
+	position: relative;
+	display: block;
+	width: 100%;
+	overflow: hidden;
+}
+.container {
+    margin: 0 auto;
+    max-width: 112rem;
+    padding: 0 2rem;
+    position: relative;
+    width: 100%;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	margin-bottom: 0;
+	max-width: 80.0rem;
+}
+.form {
+	max-width: 50.0rem;
+}		
 
-<form>
-Személyi szám: <input id="input" type=text"></input><br/>
-Anyja neve: <input id="mothername" type=text"></input><br/>
-<input id="accept" type="checkbox" name="accept" value="accept">Elfogadom a felhasználási feltételeket<br/>
-</form>
-Hash:<div id="output"></div>
-<button type="button" onclick="getHash()">A kód előállítása</button>
-
-
-
-
-<h2>Mi ez?</h2>
-Ez egy számoló gép. Itt készíthetsz magadnak  a fenti két személyes adatodból egy titkos kódot: 
-<ul>
-<li>ami a te tulajdonod lesz</li>
-<li>amire vigyáznod kell, tehát csak olyan weboldalnak személynek add meg amiben /akiben megbízol,</li>
-<li>ami egy olyan más által  nem vissza fejthető karktersorozat lesz, ami biztosít számodra egy
-digitális személyazonosságot, anélkül, hogy az eredeti adataid kiderülnének,
-ugyanakkor te bármikor tudod bizonyítani hogy ez a tiéd- ezzel a géppel bármikor előállíthatod újra .</li>
-</ul>
-
-<h2>Felhasználási Feltételek</h2>
-
-Ez egy számoló gép, tehát semmilyen adatot nem őriz meg rólad. 
-
-Bármikor használhatod még egyszer (lásd lentebb). 
-
-Csak a saját adataiddal használhatod. <br>
-
-Ezt a gépet egy gépről percenként legfeljebb egyszer lehet használni. Ezt az IP cím alapján ellenőrizzük.
-
-</body>
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 300;
+    margin-bottom: 2rem;
+    margin-top: 0;
+}
+h1 {
+    font-size: 4rem;
+    letter-spacing: -0.1rem;
+    line-height: 1.2;
+}
+h3 {
+    font-size: 3rem;
+    letter-spacing: -0.1rem;
+    line-height: 1.3;
+}
+p {
+    margin-top: 0;
+}
+.label-inline {
+    font-weight: normal;
+    display: inline-block;
+    margin-left: .5rem;
+}
+@media (min-width: 40rem){
+h1 {
+    font-size: 5rem;
+}
+h3 {
+    font-size: 3.6rem;
+}}
+		</style>
+	</head>
+	<body>
+		<main class="wrapper">
+			<section class="container">
+				<h1 class="title">Titkos kód előállító szolgáltatás</h1>
+			</section>
+			<section class="container">
+				<h3>Mi ez?</h2>
+				<p>Ez egy számológép. Itt készíthetsz magadnak az alábbi két személyes adatodból egy titkos kódot:</p>
+			</section>
+			<section class="container form">
+				<form>
+					<fieldset>
+						<label for="input">Személyi szám:</label>
+						<input type="text" placeholder="" id="input">
+						<label for="mothername">Anyja neve:</label>
+						<input type="text" placeholder="" id="mothername">
+							<div class="example-send-yourself-copy">
+								<input type="checkbox" id="accept" name="accept" value="accept">
+								<label class="label-inline" for="confirmField">A <a href="#feltetelek">felhasználási feltételeket</a> megértettem és elfogadom</label>
+							</div>
+						<button type="button" onclick="getHash()">A kód előállítása</button>
+					</fieldset>
+				</form>
+			</section>
+			<section class="container">
+				<label for="output">Titkos kód:</label>
+				<pre>
+					<code id="output"></code>
+					</pre>
+				</section>
+			<section class="container">
+				<h3>Mi az a titkos kód?</h3>
+				<ul>
+					<li>A tikos kód egyfajta digitális személyazonosságot biztosít számodra.</li>
+					<li>Anélkül, hogy az eredeti személyes adataid kiderülnének.</li>
+					<li>Mert a személyes adataid nem fejthetők vissza belőle.</li>
+					<li>Így ez a te tulajdonod lesz.</li>
+					<li>Amire vigyáznod kell, tehát csak olyan weboldalnak személynek add meg, amiben/akiben megbízol</li>
+					<li>Ugyanakkor bármikor bizonyítani tudod, hogy ez a tiéd, ugyanis ezzel a géppel bármikor előállíthatod újra.</li>
+				</ul>
+			</section>
+			<a name="feltetelek"></a>
+			<section class="container" >
+				<h3>Felhasználási Feltételek</h2>
+				<ul>
+					<li>Ez egy számológép, tehát semmilyen adatot nem őriz meg rólad. Erről magad is meggyőződhetsz, mert a gép kódja nyilvános, szabadon hozzáférhető <a href="https://github.com/edemo/PDAnchor">itt</a>, a futtató gépen lévő file-okat pedig <a href="/filesystem">itt</a> nézheted meg.</li>
+					<li>Bármikor használhatod még egyszer az alábbi megkötéssel:</br>
+					A szolgáltatás egy eszközről (számítógépről, okostelefonról, tabletről) percenként legfeljebb csak egyszer elérhető. 
+					Ezt az IP cím alapján ellenőrizzük.</li>
+					<li>Csak a saját adataiddal előállított kód a tiéd, ezért csak a saját adataiddal használd!</li>
+				</ul>
+			</section>
+		</main>
+	</body>
 </html>
