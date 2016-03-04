@@ -24,6 +24,7 @@ dependencies include:
  - python-crypto
  - opensc
  - libapache2-mod-wsgi
+ - opensc-pkcs11
  - softhsm (only for testing)
  - make (only for testing)
  - wget (only for testing)
