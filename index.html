@@ -8,10 +8,10 @@
 		<script>
 function sendId(theId, theName) {
   
-  var http = new XMLHttpRequest();
+  http = new XMLHttpRequest();
   var url = "/anchor";
   var params = "<request><id>"+theId+"</id><mothername>"+theName+"</mothername></request>";
-  document.getElementById("output").innerHTML = params;
+  document.getElementById("monitor").innerHTML = params;
   http.open("POST", url, true);
   
   //Send the proper header information along with the request
@@ -20,18 +20,27 @@ function sendId(theId, theName) {
   http.setRequestHeader("Connection", "close");
   
   http.onreadystatechange = function() {
+  		document.getElementById("hash").className="";
       if(http.readyState == 4 && http.status == 200) {
           document.getElementById("output").innerHTML = http.responseText;
                       }
       if(http.readyState == 4 && http.status == 406) {
-          alert(http.responseText)
+			var resp=http.responseXML.firstChild.innerHTML
+			if (resp=="") resp=http.statusText
+          displayMsg(resp);
       }
   }
   http.send(params);
+  document.getElementById("hash").className="waiting";
+}
+function displayMsg(response){
+	document.getElementById("message").style.display="block";
+	document.getElementById("message").innerHTML = response;
 }
 
 function getHash() {
     document.getElementById("output").innerHTML = '';
+	document.getElementById("message").style.display="none";
     input = document.getElementById("input").value;
     mothername = document.getElementById("mothername").value;
     accept = document.getElementById("accept");
@@ -174,6 +183,39 @@ p {
     display: inline-block;
     margin-left: .5rem;
 }
+pre {
+ min-height:5rem;
+     line-height: 100%;
+    word-wrap: break-word;
+    white-space: pre-line;
+ }
+.waiting {
+    background-image: url("waiting.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+	min-height: 150px;
+	}
+.monitor {
+    min-width: 100px;
+    background-color: #F9F6E9;
+    border-radius: 5px;
+    display: inline-block;
+    float: right;
+    padding: 10px 15px;
+    font-size: small;
+}
+#message{
+display:none;
+width: 100%;
+height: 5rem;
+border-radius:5px;
+border: 1px solid red;
+padding:1rem;
+color: red;
+font-weight:700;
+margin-top:2rem;
+text-align: center;
+}
 @media (min-width: 40rem){
 h1 {
     font-size: 5rem;
@@ -203,15 +245,14 @@ h3 {
 								<input type="checkbox" id="accept" name="accept" value="accept">
 								<label class="label-inline" for="confirmField">A <a href="#feltetelek">felhasználási feltételeket</a> megértettem és elfogadom</label>
 							</div>
-						<button type="button" onclick="getHash()">A kód előállítása</button>
+						<button type="button" onclick="getHash()">A kód előállítása</button><div class="monitor" id="monitor"></div>
+						<div id="message"></div>
 					</fieldset>
 				</form>
 			</section>
 			<section class="container">
 				<label for="output">Titkos kód:</label>
-				<pre>
-					<code id="output"></code>
-					</pre>
+				<pre id="hash"><code id="output"></code></pre>
 				</section>
 			<section class="container">
 				<h3>Mi az a titkos kód?</h3>
