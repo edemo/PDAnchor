@@ -228,7 +228,7 @@ h3 {
 	<body>
 		<main class="wrapper">
 			<section class="container">
-				<h1 class="title">Titkos kód előállító szolgáltatás</h1>
+				<h1 class="title">TITKOS KÓD GÉP</h1>
 			</section>
 			<section class="container">
 				<h3>Mi ez?</h2>
@@ -237,13 +237,13 @@ h3 {
 			<section class="container form">
 				<form>
 					<fieldset>
-						<label for="input">Személyi szám:</label>
+						<label for="input">Személyi azonosító:</label>
 						<input type="text" placeholder="" id="input">
 						<label for="mothername">Anyja neve:</label>
 						<input type="text" placeholder="" id="mothername">
 							<div class="example-send-yourself-copy">
 								<input type="checkbox" id="accept" name="accept" value="accept">
-								<label class="label-inline" for="confirmField">A <a href="#feltetelek">felhasználási feltételeket</a> megértettem és elfogadom</label>
+								<label class="label-inline" for="confirmField">A <a href="#feltetelek">Felhasználási Feltételeket</a> megértettem és elfogadom</label>
 							</div>
 						<button type="button" onclick="getHash()">A kód előállítása</button><div class="monitor" id="monitor"></div>
 						<div id="message"></div>
@@ -251,16 +251,15 @@ h3 {
 				</form>
 			</section>
 			<section class="container">
-				<label for="output">Titkos kód:</label>
+				<label for="output">Titkos Kód:</label>
 				<pre id="hash"><code id="output"></code></pre>
 				</section>
 			<section class="container">
-				<h3>Mi az a titkos kód?</h3>
+				<h3>Mi az a Titkos Kód?</h3>
 				<ul>
-					<li>A tikos kód egyfajta digitális személyazonosságot biztosít számodra.</li>
-					<li>Anélkül, hogy az eredeti személyes adataid kiderülnének.</li>
-					<li>Mert a személyes adataid nem fejthetők vissza belőle.</li>
-					<li>Így ez a te tulajdonod lesz.</li>
+					<li>A Titkos Kód a személyes adataidból <a href="tps://en.wikipedia.org/wiki/Cryptographic_hash_function">egyirányú titkosítással</a> előállított nem visszafejthető karaktersorozat.</li>
+					<li>A személyes adataid nem derülnek ki belőle.</li>
+					<li>A te tulajdonod lesz.</li>
 					<li>Amire vigyáznod kell, tehát csak olyan weboldalnak személynek add meg, amiben/akiben megbízol</li>
 					<li>Ugyanakkor bármikor bizonyítani tudod, hogy ez a tiéd, ugyanis ezzel a géppel bármikor előállíthatod újra.</li>
 				</ul>
