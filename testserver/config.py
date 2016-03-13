@@ -1,7 +1,8 @@
 # pylint: disable=invalid-name
 cryptoserver_host = "localhost"
 cryptoserver_port = 9999
-
+inputlength = 256
+outputlength = 256
 excAnswer = "<exception>{0}<trace>{1}</trace></exception>"
 minimum_time = 0
 pkcs11lib = "/usr/lib/softhsm/libsofthsm.so"

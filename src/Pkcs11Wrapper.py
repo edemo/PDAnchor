@@ -10,8 +10,10 @@ class Pkcs11Wrapper(object):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             sock.connect((config.cryptoserver_host,config.cryptoserver_port))  # @UndefinedVariable
-            sock.sendall(data)
-            response = sock.recv(1024)
+            sock.sendall(data.zfill(config.inputlength))
+            response = sock.recv(config.outputlength)
+            if len(response) != config.outputlength:
+                raise RuntimeError('output length is not {0} ({1})'.format(config.outputlength, len(response)))
         except:
             syslog.syslog(traceback.format_exc())
             raise

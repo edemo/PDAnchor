@@ -4,7 +4,6 @@
 import unittest
 from Application import Application, InputValidationException
 from StringIO import StringIO
-import config
 
 class FakeServer:
     def __init__(self):
@@ -34,22 +33,6 @@ class ApplicationTest(unittest.TestCase):
         with self.assertRaises(InputValidationException):
             Application().getRequestFromXml("""<requested><id>17203133959</id><mothername>testname</mothername></requested>""")
 
-    def test_Application(self):
-        environ = {}
-        environ['REMOTE_ADDR'] = '192.168.1.2'
-        payload = """<request><id>17203133959</id><mothername>testname</mothername></request>"""
-        wsgiInput = StringIO(payload)
-        environ['wsgi.input'] = wsgiInput
-        environ['CONTENT_LENGTH'] = "{0}".format(len(payload))
-        fakeServer = FakeServer()
-        response = Application().application(environ, fakeServer.start_response)
-        self.assertEquals(
-            ["<hash>{0}</hash>".format(config.testHash)],
-            response);
-        self.assertEquals("200 OK", fakeServer.status)
-        self.assertEquals(('Content-Length',"{0}".format(len(response[0]))), fakeServer.headers[1])
-        self.assertEquals(('Access-Control-Allow-Origin',"*"), fakeServer.headers[2])
-        self.assertEquals(('Content-Type',"text/xml"), fakeServer.headers[0])
 
     def test_origin_header_in_bad_request(self):
         environ = {}
