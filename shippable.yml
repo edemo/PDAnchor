@@ -1,0 +1,3 @@
+build_image: magwas/edemotest:master
+script:
+- make test
