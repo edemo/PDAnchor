@@ -1,2 +1,4 @@
+.pydevproject
+.settings
 tmp
 *.pyc
