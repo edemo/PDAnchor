@@ -42,13 +42,41 @@ function getHash() {
     document.getElementById("output").innerHTML = '';
 	document.getElementById("message").style.display="none";
     input = document.getElementById("input").value;
-    mothername = document.getElementById("mothername").value;
+    mothername = normalizeString(document.getElementById("mothername").value);
     accept = document.getElementById("accept");
     if (accept.checked) {
      sendId(input,mothername);
     }
-    
 }
+
+function normalizeString(val) {
+		var   accented="öüóőúéáűíÖÜÓŐÚÉÁŰÍ";
+		var unaccented="ouooueauiouooueaui";
+		var s = "";
+		
+		for (var i = 0, len = val.length; i < len; i++) {
+		  c = val[i];
+		  if(c.match('[abcdefghijklmnopqrstuvwxyz]')) {
+		    s=s+c;
+		  } else if(c.match('[ABCDEFGHIJKLMNOPQRSTUVXYZ]')) {
+		    s=s+c.toLowerCase();
+		  } else if(c.match('['+accented+']')) {
+		    for (var j = 0, alen = accented.length; j <alen; j++) {
+		      if(c.match(accented[j])) {
+		        s=s+unaccented[j];
+		      }
+		    }
+		  }
+		}
+		return s;
+	}
+
+function convert_mothername() {
+		var inputElement = document.getElementById( "mothername" );
+		var outputElement = document.getElementById( "monitor" );
+		outputElement.innerHTML=document.getElementById( "input" ).value +' - '+ normalizeString(inputElement.value);
+	}
+
 		</script>
 		<style>
 *, *:after, *:before {
@@ -238,9 +266,9 @@ h3 {
 				<form>
 					<fieldset>
 						<label for="input">Személyi azonosító:</label>
-						<input type="text" placeholder="" id="input">
+						<input type="text" placeholder="" id="input" onkeyup="convert_mothername()">
 						<label for="mothername">Anyja neve:</label>
-						<input type="text" placeholder="" id="mothername">
+						<input type="text" placeholder="" id="mothername" onkeyup="convert_mothername()">
 							<div class="example-send-yourself-copy">
 								<input type="checkbox" id="accept" name="accept" value="accept">
 								<label class="label-inline" for="confirmField">A <a href="#feltetelek">Felhasználási Feltételeket</a> megértettem és elfogadom</label>
