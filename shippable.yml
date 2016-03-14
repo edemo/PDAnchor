@@ -1,4 +1,5 @@
 build_image: magwas/edemotest:master
 script:
+- type python
 - python -c "import sys;print sys.path"
 - make test
