@@ -1,7 +1,16 @@
+#encoding: utf-8
 import SocketServer
 import subprocess
 import tempfile
 import os
+import gettext
+
+gettext.install("PDAnchor")
+problemRunningCommand = _("problem running command: {0}")
+inputSizeMismatch = _("input size mismatch: {1} bytes instead of {0} bytes")
+commandOutputSizeMismatch = _("command output size mismatch: {1} bytes instead of {0} bytes")
+anErrorOccured = _("an error occured, try again later")
+exitCode = _("exit code: {0}")
 
 class CryptoServerBase(object):
 
@@ -40,15 +49,15 @@ class CryptoServerBase(object):
             out, err = proc.communicate()
             self.logRun(out, err)
         except Exception as e:
-            self.handleError("problem running command: {0}".format(e))
+            self.handleError(problemRunningCommand.format(e))
         if proc.returncode:
-            self.handleError("exit code: {0}".format(proc.returncode))
+            self.handleError(exitCode.format(proc.returncode))
 
     def receiveData(self):
         data = self.request.recv(self.opts.inputlength)
         if len(data) != self.opts.inputlength:
             self.handleError(
-                "input is not {0} bytes ({1} bytes)".format(
+                inputSizeMismatch.format(
                     self.opts.inputlength,
                     len(data)))            
         return data
@@ -59,7 +68,7 @@ class CryptoServerBase(object):
         os.unlink(name)
         if len(data) != self.opts.outputlength:
             self.handleError(
-                "command output is not {0} bytes ({1} bytes)".format(
+                commandOutputSizeMismatch.format(
                     self.opts.outputlength,
                     len(data)))            
         return data
@@ -79,7 +88,7 @@ class CryptoServerBase(object):
             self.runCommand(data, cmd)
             res = self.getResponse(name)
         except Exception:
-            res = "an error occured, try again later"
+            res = anErrorOccured
         self.sendResult(res)
 
 class CryptoServer(CryptoServerBase,SocketServer.BaseRequestHandler):
