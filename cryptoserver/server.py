@@ -3,8 +3,9 @@ import SocketServer
 import subprocess
 import tempfile
 import os
-import gettext  # @UnusedImport
+import gettext
 
+gettext.install("PDAnchor")
 problemRunningCommand = _("problem running command: {0}")
 inputSizeMismatch = _("input size mismatch: {1} bytes instead of {0} bytes")
 commandOutputSizeMismatch = _("command output size mismatch: {1} bytes instead of {0} bytes")
