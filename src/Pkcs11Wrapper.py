@@ -3,7 +3,7 @@ from Crypto.Hash.SHA512 import SHA512Hash
 import socket
 import traceback
 import syslog
-
+from Exceptions import IncorrectLengthException
 
 class Pkcs11Wrapper(object):
     def sign(self, data):
@@ -13,7 +13,7 @@ class Pkcs11Wrapper(object):
             sock.sendall(data.zfill(config.inputlength))
             response = sock.recv(config.outputlength)
             if len(response) != config.outputlength:
-                raise RuntimeError('output length is not {0} ({1})'.format(config.outputlength, len(response)))
+                raise IncorrectLengthException(config.outputlength, response)
         except:
             syslog.syslog(traceback.format_exc())
             raise

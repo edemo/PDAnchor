@@ -14,6 +14,8 @@ import config
 from Pkcs11Wrapper import Pkcs11Wrapper
 from Reply import Reply
 from syslog import syslog
+from Exceptions import InputValidationException
+from Messages import applicationInit, okStatus, notAcceptableStatus
 
 class record(object):
     def __init__(self,identity=None,name=None):
@@ -22,13 +24,9 @@ class record(object):
 
 excAnswer=getattr(config,'excAnswer',"<exception>{0}</exception>")
 
-class InputValidationException(Exception):
-    def __init__(self):
-        self.value="Invalid Input"
-
 class Application:
     def __init__(self):
-        syslog("application init")
+        syslog(applicationInit)
         self.guard = Guard()
         self.hasher = Pkcs11Wrapper()
 
@@ -38,13 +36,13 @@ class Application:
         self.guard.check(requestor, ret)
         digest = self.hasher.hash(ret.id+ret.mothername)
         message = "<hash>{0}</hash>".format(digest)
-        status = '200 OK'
+        status = okStatus
         return Reply(status, message)
 
     def createErrorReply(self):
         excInfo = sys.exc_info()
         message = excAnswer.format(excInfo[1], traceback.format_exc())
-        status = "406 Not Acceptable"
+        status = notAcceptableStatus
         return Reply(status, message)
 
     def getRequestSize(self, environ):
