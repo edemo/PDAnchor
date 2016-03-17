@@ -19,7 +19,7 @@ msgstr ""
 
 #: src/Messages.py:4
 msgid "Invalid Input"
-msgstr "Invalid Input"
+msgstr "A mező nem lehet üres."
 
 #: src/Messages.py:5
 #, python-brace-format
@@ -33,7 +33,7 @@ msgstr "Ez nem anyja neve: {0}"
 
 #: src/Messages.py:7
 msgid "Várj még egy percet"
-msgstr "Várj még egy percet"
+msgstr "Várj  egy percet"
 
 #: src/Messages.py:8
 msgid "nem csupa kisbetu"
@@ -45,12 +45,12 @@ msgstr "túl hosszú"
 
 #: src/Messages.py:10
 msgid "nem 11 karakter"
-msgstr "nem 11 karakter"
+msgstr "csak 11 karakter lehet"
 
 #: src/Messages.py:11
 #, python-brace-format
 msgid "nem stimmel az összeg: {0}"
-msgstr "nem stimmel az összeg: {0}"
+msgstr "nem jó ellenőrző az összeg: {0}"
 
 #: src/Messages.py:12
 msgid "nem számokból áll"
