@@ -4,6 +4,7 @@ import subprocess
 import tempfile
 import os
 import gettext
+import time
 
 gettext.install("PDAnchor")
 problemRunningCommand = _("problem running command: {0}")
@@ -37,6 +38,14 @@ class CryptoServerBase(object):
             self.syslog.syslog(str(cmd))
         return cmd
 
+    def compileWakeupCommandLine(self):
+        pass
+        cmd = ["pkcs11-tool", "--module", 
+            self.opts.module, 
+            "-O"]
+        if self.opts.verbose:
+            self.syslog.syslog(str(cmd))
+        return cmd
 
     def handleError(self, errMsg):
         self.syslog.syslog(errMsg)
@@ -80,9 +89,19 @@ class CryptoServerBase(object):
     def sendResult(self, res):
         self.request.sendall(res)
 
+
+    def wakeUpToken(self):
+        preCmd = self.compileWakeupCommandLine()
+        try:
+            self.runCommand("", preCmd)
+        except:
+            time.sleep(3)
+            self.runCommand("", preCmd)
+
     def handle(self):
         try:
             data = self.receiveData()
+            self.wakeUpToken()
             name = self.getTempName()
             cmd = self.compileCommandLine(name)
             self.runCommand(data, cmd)
@@ -91,6 +110,7 @@ class CryptoServerBase(object):
             res = anErrorOccured
         self.sendResult(res)
 
+    
 class CryptoServer(CryptoServerBase,SocketServer.BaseRequestHandler):
     def __init__(self, request, client_address, server):
         SocketServer.BaseRequestHandler.__init__(self, request, client_address, server)
