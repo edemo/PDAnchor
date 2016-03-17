@@ -1,4 +1,4 @@
-all: test killserver
+all: hu.po test killserver
 
 test: runcryptoserver runserver
 	./runtests.sh
@@ -20,3 +20,10 @@ stopcryptoserver:
 
 testenv:
 	docker run -p 8890:8890 -p 9999:9999 -v $$(pwd):/PDAnchor -it magwas/edemotest:master
+
+messages.po: $(wildcard src/*.py) $(wildcard cryptoserver/*.py)
+	xgettext -L Python -j --package-name=PDAnchor src/*.py cryptoserver/*.py
+
+hu.po: messages.po
+	msgmerge -U hu.po messages.po
+

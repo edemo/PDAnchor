@@ -1,0 +1,98 @@
+# English translations for PDAnchor package.
+# Copyright (C) 2016 THE PDAnchor'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PDAnchor package.
+# mag <mag@magwas.rulez.org>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PDAnchor\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-17 01:38+0100\n"
+"PO-Revision-Date: 2016-03-17 01:44+0100\n"
+"Last-Translator: mag <mag@magwas.rulez.org>\n"
+"Language-Team: English\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/Messages.py:4
+msgid "Invalid Input"
+msgstr "Invalid Input"
+
+#: src/Messages.py:5
+#, python-brace-format
+msgid "Ez nem személyi szám: {0}"
+msgstr "Ez nem személyi szám: {0}"
+
+#: src/Messages.py:6
+#, python-brace-format
+msgid "Ez nem anyja neve: {0}"
+msgstr "Ez nem anyja neve: {0}"
+
+#: src/Messages.py:7
+msgid "Várj még egy percet"
+msgstr "Várj még egy percet"
+
+#: src/Messages.py:8
+msgid "nem csupa kisbetu"
+msgstr "nem csupa kisbetu"
+
+#: src/Messages.py:9
+msgid "túl hosszú"
+msgstr "túl hosszú"
+
+#: src/Messages.py:10
+msgid "nem 11 karakter"
+msgstr "nem 11 karakter"
+
+#: src/Messages.py:11
+#, python-brace-format
+msgid "nem stimmel az összeg: {0}"
+msgstr "nem stimmel az összeg: {0}"
+
+#: src/Messages.py:12
+msgid "nem számokból áll"
+msgstr "nem számokból áll"
+
+#: src/Messages.py:13
+#, python-brace-format
+msgid "output length mismatch: {1} instead of {0}"
+msgstr "output length mismatch: {1} instead of {0}"
+
+#: src/Messages.py:14
+msgid "application init"
+msgstr "application init"
+
+#: src/Messages.py:15
+msgid "200 OK"
+msgstr "200 OK"
+
+#: src/Messages.py:16
+msgid "406 Not Acceptable"
+msgstr "406 Not Acceptable"
+
+#: cryptoserver/server.py:8
+#, python-brace-format
+msgid "problem running command: {0}"
+msgstr "problem running command: {0}"
+
+#: cryptoserver/server.py:9
+#, python-brace-format
+msgid "input size mismatch: {1} bytes instead of {0} bytes"
+msgstr "input size mismatch: {1} bytes instead of {0} bytes"
+
+#: cryptoserver/server.py:10
+#, python-brace-format
+msgid "command output size mismatch: {1} bytes instead of {0} bytes"
+msgstr "command output size mismatch: {1} bytes instead of {0} bytes"
+
+#: cryptoserver/server.py:11
+msgid "an error occured, try again later"
+msgstr "an error occured, try again later"
+
+#: cryptoserver/server.py:12
+#, python-brace-format
+msgid "exit code: {0}"
+msgstr "exit code: {0}"

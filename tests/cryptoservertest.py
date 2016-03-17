@@ -87,7 +87,7 @@ class CryproServerTest(unittest.TestCase):
         self.fixture.request = FakeRequest("a"*511)
         with self.assertRaises(RuntimeError):
             self.fixture.receiveData()
-        self.assertEqual('input is not 512 bytes (511 bytes)',self.fixture.syslog.logged)
+        self.assertEqual('input size mismatch: 511 bytes instead of 512 bytes',self.fixture.syslog.logged)
 
     def test_good_input_length_is_accepted(self):
         result = self.fixture.receiveData()
@@ -97,7 +97,7 @@ class CryproServerTest(unittest.TestCase):
         name = self.prepareFakeOutput(511)
         with self.assertRaises(RuntimeError):
             self.fixture.getResponse(name)
-        self.assertEqual('command output is not 256 bytes (511 bytes)',self.fixture.syslog.logged)
+        self.assertEqual('command output size mismatch: 511 bytes instead of 256 bytes',self.fixture.syslog.logged)
 
     def test_good_output_length_is_accepted(self):
         name = self.prepareFakeOutput(256)
@@ -117,4 +117,4 @@ class CryproServerTest(unittest.TestCase):
     def test_problems_are_logged(self):
         self.fixture.request = FakeRequest("a"*511)
         self.fixture.handle()
-        self.assertEqual("input is not 512 bytes (511 bytes)", self.fixture.syslog.logged)
+        self.assertEqual('input size mismatch: 511 bytes instead of 512 bytes', self.fixture.syslog.logged)

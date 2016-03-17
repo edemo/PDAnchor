@@ -4,23 +4,14 @@
 from time import time
 import config
 import re
+from Exceptions import IncorrectNameException, TooFrequentguestException,\
+    IncorrectIdException
+from Messages import notOnlyLowercase, tooLong, notElevenCharacter,\
+    controlSumMismatch, notAllNumbers
 
 HUNDRED_YEARS = 1000000
 LAST_DAY_OF_1996 = 961231
 
-class IncorrectIdException(Exception):
-    def __init__(self, why):
-        msg = "Ez nem személyi szám: {0}".format(why)
-        super(Exception,self).__init__(msg)
-
-class IncorrectNameException(Exception):
-    def __init__(self, why):
-        msg = "Ez nem anyja neve: {0}".format(why)
-        super(Exception,self).__init__(msg)
-
-class TooFrequentguestException(Exception):
-    def __init__(self):
-        super(Exception,self).__init__("Várj még egy percet")
 
 class Guard():
     conns = {}
@@ -33,9 +24,9 @@ class Guard():
 
     def checkName(self, motherName):
         if re.compile(r"[^abcdefghijklmnopqrstuvwxyz]").search(motherName):
-            raise IncorrectNameException("nem csupa kisbetu")
+            raise IncorrectNameException(notOnlyLowercase)
         if len(motherName) > 50:
-            raise IncorrectNameException("túl hosszú")
+            raise IncorrectNameException(tooLong)
 
     def checkCaller(self, caller):
         now = time()
@@ -46,7 +37,7 @@ class Guard():
 
     def checkIdLen(self, userID):
         if len(userID) != 11:
-            raise IncorrectIdException("nem 11 karakter")
+            raise IncorrectIdException(notElevenCharacter)
 
     def isYoungSumma(self, userID):
         birthday = int(userID[1:7])
@@ -91,8 +82,8 @@ class Guard():
         lastCh=userID[-1]
         controlsum = self.computeChecksum(userID)
         if (controlsum % 11) != int(lastCh):
-                raise IncorrectIdException("nem stimmel az összeg: {0}".format(controlsum % 11))
+                raise IncorrectIdException(controlSumMismatch.format(controlsum % 11))
 
     def checkDomain(self, ch):
             if not ( ch in "1234567890"):
-                raise IncorrectIdException("nem számokból áll")
+                raise IncorrectIdException(notAllNumbers)
