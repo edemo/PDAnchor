@@ -1,0 +1,98 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PDAnchor\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-17 01:46+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/Messages.py:4
+msgid "Invalid Input"
+msgstr ""
+
+#: src/Messages.py:5
+#, python-brace-format
+msgid "Ez nem személyi szám: {0}"
+msgstr ""
+
+#: src/Messages.py:6
+#, python-brace-format
+msgid "Ez nem anyja neve: {0}"
+msgstr ""
+
+#: src/Messages.py:7
+msgid "Várj még egy percet"
+msgstr ""
+
+#: src/Messages.py:8
+msgid "nem csupa kisbetu"
+msgstr ""
+
+#: src/Messages.py:9
+msgid "túl hosszú"
+msgstr ""
+
+#: src/Messages.py:10
+msgid "nem 11 karakter"
+msgstr ""
+
+#: src/Messages.py:11
+#, python-brace-format
+msgid "nem stimmel az összeg: {0}"
+msgstr ""
+
+#: src/Messages.py:12
+msgid "nem számokból áll"
+msgstr ""
+
+#: src/Messages.py:13
+#, python-brace-format
+msgid "output length mismatch: {1} instead of {0}"
+msgstr ""
+
+#: src/Messages.py:14
+msgid "application init"
+msgstr ""
+
+#: src/Messages.py:15
+msgid "200 OK"
+msgstr ""
+
+#: src/Messages.py:16
+msgid "406 Not Acceptable"
+msgstr ""
+
+#: cryptoserver/server.py:8
+#, python-brace-format
+msgid "problem running command: {0}"
+msgstr ""
+
+#: cryptoserver/server.py:9
+#, python-brace-format
+msgid "input size mismatch: {1} bytes instead of {0} bytes"
+msgstr ""
+
+#: cryptoserver/server.py:10
+#, python-brace-format
+msgid "command output size mismatch: {1} bytes instead of {0} bytes"
+msgstr ""
+
+#: cryptoserver/server.py:11
+msgid "an error occured, try again later"
+msgstr ""
+
+#: cryptoserver/server.py:12
+#, python-brace-format
+msgid "exit code: {0}"
+msgstr ""
