@@ -2,9 +2,9 @@
 from optparse import OptionParser
 import sys
 import traceback
-import SocketServer
 import os
 import syslog
+import socketserver
 from server import CryptoServer
 
 class Program(object):
@@ -26,10 +26,10 @@ class Program(object):
             self.handleException()
 
     def main(self):
-        SocketServer.TCPServer.allow_reuse_address = True
+        socketserver.TCPServer.allow_reuse_address = True
         CryptoServer.opts = self.opts
         CryptoServer.syslog = self.syslog
-        server = SocketServer.TCPServer((self.opts.host, self.opts.port), CryptoServer)
+        server = socketserver.TCPServer((self.opts.host, self.opts.port), CryptoServer)
         self.syslog.syslog("listening at {0} {1}".format(self.opts.host, self.opts.port))
         server.serve_forever()
 
@@ -82,7 +82,7 @@ class Program(object):
     def parseArgs(self, argv):
         opts, args = self.parser.parse_args(argv)  # @UnusedVariable
         if not opts.keyid:
-            print self.parser.format_help()
+            print(self.parser.format_help())
             sys.exit(1)
         self.opts = opts
 

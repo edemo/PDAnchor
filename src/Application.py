@@ -34,12 +34,13 @@ class Application:
         ret = self.getRequestFromXml(request_body)
         requestor = self.getIpHash(environ)
         self.guard.check(requestor, ret)
-        digest = self.hasher.hash(ret.id+ret.mothername)
-        message = "<hash>{0}</hash>".format(digest)
+        digest = self.hasher.hash((ret.id+ret.mothername).encode())
+        message = "<hash>{0}</hash>".format(digest).encode()
         status = okStatus
         return Reply(status, message)
 
     def createErrorReply(self):
+        syslog(traceback.format_exc())
         excInfo = sys.exc_info()
         message = excAnswer.format(excInfo[1], traceback.format_exc())
         status = notAcceptableStatus
@@ -77,7 +78,7 @@ class Application:
 
     def getIpHash(self,environ):
         ip=environ["REMOTE_ADDR"]
-        digest = SHA512.SHA512Hash(ip).hexdigest()
+        digest = SHA512.SHA512Hash(ip.encode()).hexdigest()
         return digest
 
     def run(self):

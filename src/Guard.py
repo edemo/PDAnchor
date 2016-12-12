@@ -30,7 +30,7 @@ class Guard():
 
     def checkCaller(self, caller):
         now = time()
-        if self.conns.has_key(caller):
+        if caller in self.conns:
             if ( self.conns[caller] > now - getattr(config,"minimum_time",60) ):
                 raise TooFrequentguestException()
         self.conns[caller] = now
