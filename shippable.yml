@@ -2,10 +2,5 @@ build_image: magwas/edemotest:master
 language: python
 python:
   - 2.7
-env:
-  global: 
-      - PATH=/firefox:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 script:
-- type python
-- python -c "import sys;print sys.path"
-- make test
+- ./script
