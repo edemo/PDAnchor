@@ -89,7 +89,7 @@ class CryproServerTest(unittest.TestCase):
                 '')
         self.assertTrue(
             self.fixture.syslog.logged[1].startswith(
-                "0+1 records in\n0+1 records out\n11 bytes (11 B) copied,"))
+                "0+1 records in\n0+1 records out\n11 bytes "))
 
     def test_runCommand_logs_catches_errors(self):
         with self.assertRaises(RuntimeError):
