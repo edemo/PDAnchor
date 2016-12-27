@@ -82,7 +82,7 @@ class Guard():
         lastCh=userID[-1]
         controlsum = self.computeChecksum(userID)
         if (controlsum % 11) != int(lastCh):
-                raise IncorrectIdException(controlSumMismatch.format(controlsum % 11))
+                raise IncorrectIdException(controlSumMismatch.format(controlsum % 11))  # @UndefinedVariable
 
     def checkDomain(self, ch):
             if not ( ch in "1234567890"):
