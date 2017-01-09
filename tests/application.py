@@ -3,7 +3,7 @@
 
 import unittest
 from Application import Application, InputValidationException
-from StringIO import StringIO
+from io import StringIO
 
 class FakeServer:
     def __init__(self):
@@ -18,8 +18,8 @@ class ApplicationTest(unittest.TestCase):
 
     def test_getrequestFromXml_returns_an_object_with_id_and_mothername(self):
         ret = Application().getRequestFromXml("""<request><id>17203133959</id><mothername>testname</mothername></request>""")
-        self.assertEquals(ret.id,"17203133959")
-        self.assertEquals(ret.mothername,"testname")
+        self.assertEqual(ret.id,"17203133959")
+        self.assertEqual(ret.mothername,"testname")
 
     def test_getrequestFromXml_throws_an_expression_if_id_is_missing(self):
         with self.assertRaises(InputValidationException):
@@ -43,10 +43,10 @@ class ApplicationTest(unittest.TestCase):
         environ['CONTENT_LENGTH'] = "{0}".format(len(payload))
         fakeServer = FakeServer()
         response = Application().application(environ, fakeServer.start_response)
-        self.assertEquals("406 Not Acceptable", fakeServer.status)
-        self.assertEquals(('Content-Length',"{0}".format(len(response[0]))), fakeServer.headers[1])
-        self.assertEquals(('Access-Control-Allow-Origin',"*"), fakeServer.headers[2])
-        self.assertEquals(('Content-Type',"text/xml"), fakeServer.headers[0])
+        self.assertEqual("406 Not Acceptable", fakeServer.status)
+        self.assertEqual(('Content-Length',"{0}".format(len(response[0]))), fakeServer.headers[1])
+        self.assertEqual(('Access-Control-Allow-Origin',"*"), fakeServer.headers[2])
+        self.assertEqual(('Content-Type',"text/xml"), fakeServer.headers[0])
 
 
 

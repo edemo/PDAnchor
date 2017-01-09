@@ -1,16 +1,14 @@
 #encoding: utf-8
-import gettext
-gettext.install('PDAnchor')
-invalidInput = _('Invalid Input')
-notPersonalId = _("Ez nem személyi szám: {0}")
-noMotherName = _("Ez nem anyja neve: {0}")
-waitAMinute = _("Várj még egy percet")
-notOnlyLowercase = _("nem csupa kisbetu")
-tooLong = _("túl hosszú")
-notElevenCharacter = _("nem 11 karakter")
-controlSumMismatch = _("nem stimmel az összeg: {0}")
-notAllNumbers = _("nem számokból áll")
-outputLengthMismatch = _('output length mismatch: {1} instead of {0}')
-applicationInit = _("application init")
-okStatus = _('200 OK')
-notAcceptableStatus = _("406 Not Acceptable")
+invalidInput = 'Invalid Input'
+notPersonalId = "Ez nem személyi szám: {0}"
+noMotherName = "Ez nem anyja neve: {0}"
+waitAMinute = "Várj még egy percet"
+notOnlyLowercase = "nem csupa kisbetu"
+tooLong = "túl hosszú"
+notElevenCharacter = "nem 11 karakter"
+controlSumMismatch = "nem stimmel az összeg: {0}"
+notAllNumbers = "nem számokból áll"
+outputLengthMismatch = 'output length mismatch: {1} instead of {0}'
+applicationInit = "application init"
+okStatus = '200 OK'
+notAcceptableStatus = "406 Not Acceptable"

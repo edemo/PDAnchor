@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import sys
-import md5
 import traceback
 
 from xml.etree.ElementTree import XML
@@ -16,6 +15,7 @@ from Reply import Reply
 from syslog import syslog
 from Exceptions import InputValidationException
 from Messages import applicationInit, okStatus, notAcceptableStatus
+from Crypto.Hash import SHA512
 
 class record(object):
     def __init__(self,identity=None,name=None):
@@ -34,14 +34,15 @@ class Application:
         ret = self.getRequestFromXml(request_body)
         requestor = self.getIpHash(environ)
         self.guard.check(requestor, ret)
-        digest = self.hasher.hash(ret.id+ret.mothername)
-        message = "<hash>{0}</hash>".format(digest)
+        digest = self.hasher.hash((ret.id+ret.mothername).encode())
+        message = "<hash>{0}</hash>".format(digest).encode()
         status = okStatus
         return Reply(status, message)
 
     def createErrorReply(self):
+        syslog(traceback.format_exc())
         excInfo = sys.exc_info()
-        message = excAnswer.format(excInfo[1], traceback.format_exc())
+        message = bytes(excAnswer.format(excInfo[1], traceback.format_exc()).encode())
         status = notAcceptableStatus
         return Reply(status, message)
 
@@ -77,7 +78,7 @@ class Application:
 
     def getIpHash(self,environ):
         ip=environ["REMOTE_ADDR"]
-        digest = md5.new(ip).hexdigest()
+        digest = SHA512.SHA512Hash(ip.encode()).hexdigest()
         return digest
 
     def run(self):

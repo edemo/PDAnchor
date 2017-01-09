@@ -4,9 +4,11 @@ import socket
 import traceback
 import syslog
 from Exceptions import IncorrectLengthException
+from enforce.decorators import runtime_validation
 
 class Pkcs11Wrapper(object):
-    def sign(self, data):
+    @runtime_validation
+    def sign(self, data: bytes):
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             sock.connect((config.cryptoserver_host,config.cryptoserver_port))  # @UndefinedVariable
@@ -21,11 +23,12 @@ class Pkcs11Wrapper(object):
             sock.close()
         s=""
         for byte in response:
-            s += "{0:02x}".format(ord(byte))
+            s += "{0:02x}".format(byte)
         return s
 
-    def hash(self, data):
+    @runtime_validation
+    def hash(self, data: bytes):
         data = SHA512Hash(data).digest()
-        data = self.sign(data)
+        data = self.sign(data).encode()
         data = SHA512Hash(data).hexdigest()
         return data

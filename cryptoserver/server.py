@@ -1,17 +1,19 @@
 #encoding: utf-8
-import SocketServer
+import socketserver
 import subprocess
 import tempfile
 import os
-import gettext
 import time
+import traceback
+from enforce import runtime_validation
+from typing import List, Tuple
+from socket import socket
 
-gettext.install("PDAnchor")
-problemRunningCommand = _("problem running command: {0}")
-inputSizeMismatch = _("input size mismatch: {1} bytes instead of {0} bytes")
-commandOutputSizeMismatch = _("command output size mismatch: {1} bytes instead of {0} bytes")
-anErrorOccured = _("an error occured, try again later")
-exitCode = _("exit code: {0}")
+problemRunningCommand = "problem running command: {0}"
+inputSizeMismatch = "input size mismatch: {1} bytes instead of {0} bytes"
+commandOutputSizeMismatch = "command output size mismatch: {1} bytes instead of {0} bytes"
+anErrorOccured = b"an error occured, try again later"
+exitCode = "exit code: {0}"
 
 class CryptoServerBase(object):
 
@@ -21,7 +23,8 @@ class CryptoServerBase(object):
         temp.close()
         return name
 
-    def compileCommandLine(self, name):
+    @runtime_validation
+    def compileCommandLine(self, name: str):
         cmd = ["pkcs11-tool", "--module", 
             self.opts.module, 
             "-l", 
@@ -47,16 +50,18 @@ class CryptoServerBase(object):
             self.syslog.syslog(str(cmd))
         return cmd
 
-    def handleError(self, errMsg):
+    @runtime_validation
+    def handleError(self, errMsg: str):
         self.syslog.syslog(errMsg)
         raise RuntimeError(errMsg)
 
-    def runCommand(self, data, cmd):
+    @runtime_validation
+    def runCommand(self, data: bytes, cmd: List[str]):
         try:
             proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             proc.stdin.write(data)
             out, err = proc.communicate()
-            self.logRun(out, err)
+            self.logRun(str(out), str(err))
         except Exception as e:
             self.handleError(problemRunningCommand.format(e))
         if proc.returncode:
@@ -71,32 +76,37 @@ class CryptoServerBase(object):
                     len(data)))            
         return data
 
-    def getResponse(self, name):
-        f = open(name)
+    @runtime_validation
+    def getResponse(self, name: str):
+        f = open(name,"rb")
         data = f.read()
         os.unlink(name)
         if len(data) != self.opts.outputlength:
+            f.close()
             self.handleError(
                 commandOutputSizeMismatch.format(
                     self.opts.outputlength,
-                    len(data)))            
+                    len(data)))
+        f.close()
         return data
 
-    def logRun(self, out, err):
-        self.syslog.syslog(out)
-        self.syslog.syslog(err)
+    @runtime_validation
+    def logRun(self, out: str, err: str):
+        self.syslog.syslog(str(out))
+        self.syslog.syslog(str(err))
 
-    def sendResult(self, res):
+    @runtime_validation
+    def sendResult(self, res: bytes):
         self.request.sendall(res)
 
 
     def wakeUpToken(self):
         preCmd = self.compileWakeupCommandLine()
         try:
-            self.runCommand("", preCmd)
+            self.runCommand(b"", preCmd)
         except:
             time.sleep(3)
-            self.runCommand("", preCmd)
+            self.runCommand(b"", preCmd)
 
     def handle(self):
         try:
@@ -107,10 +117,12 @@ class CryptoServerBase(object):
             self.runCommand(data, cmd)
             res = self.getResponse(name)
         except Exception:
+            self.syslog.syslog(traceback.format_exc())
             res = anErrorOccured
         self.sendResult(res)
 
     
-class CryptoServer(CryptoServerBase,SocketServer.BaseRequestHandler):
-    def __init__(self, request, client_address, server):
-        SocketServer.BaseRequestHandler.__init__(self, request, client_address, server)
+class CryptoServer(CryptoServerBase,socketserver.BaseRequestHandler):
+    @runtime_validation
+    def __init__(self, request: socket, client_address: tuple, server):
+        socketserver.BaseRequestHandler.__init__(self, request, client_address, server)
