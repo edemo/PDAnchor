@@ -8,5 +8,5 @@ do
 	set -e
 	diff <(echo $status) $test.status
 	diff -bu tmp/reply ${test}.reply 
-	diff -bu <(grep -v Date: tmp/reply.headers) ${test}.headers 
+	diff -bu <(egrep -v "Date:|Content-Length:" tmp/reply.headers) ${test}.headers 
 done
