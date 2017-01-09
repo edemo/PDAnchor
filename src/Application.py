@@ -42,7 +42,7 @@ class Application:
     def createErrorReply(self):
         syslog(traceback.format_exc())
         excInfo = sys.exc_info()
-        message = excAnswer.format(excInfo[1], traceback.format_exc())
+        message = bytes(excAnswer.format(excInfo[1], traceback.format_exc()).encode())
         status = notAcceptableStatus
         return Reply(status, message)
 

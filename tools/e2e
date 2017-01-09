@@ -1,0 +1,12 @@
+#!/bin/bash
+for test in tests/e2e/*.data
+do
+	echo $test
+	set +e
+	wget -S -q --no-check-certificate --post-file=$test --header "Content-type: application/x-www-form-urlencoded" https://localhost:8890/anchor -O tmp/reply 2>tmp/reply.headers
+	status=$?
+	set -e
+	diff <(echo $status) $test.status
+	diff -bu tmp/reply ${test}.reply 
+	diff -bu <(egrep -v "Date:|Content-Length:" tmp/reply.headers) ${test}.headers 
+done

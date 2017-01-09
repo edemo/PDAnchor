@@ -2,7 +2,7 @@ PDAnchor
 
 This is the trust anchor for an anonymous assured identity provider.
 We have a smart card with a private key known by no one.
-Anyone can submit a personal identity number ("személyi szám",
+Anyone can submit a personal identity number ("személyi azonosító",
 it is a unique identifier for Hungarian citizens), along with a string
 representing mother's name and gets
 the hash of the signature of the identity number.

@@ -3,8 +3,13 @@ all: hu.po test killserver
 test: runcryptoserver runserver
 	./runtests.sh
 
-runserver: runcryptoserver
+runserver: restartsyslog runcryptoserver
 	mkdir -p tmp;SOFTHSM_CONF=testserver/softhsm.conf apache2 -X -f $$(pwd)/testserver/apache2.conf &
+
+restartsyslog:
+	cp testserver/syslog-ng.conf /etc/syslog-ng/syslog-ng.conf
+	service syslog-ng restart
+	cat /dev/xconsole&
 
 killserver: stopcryptoserver
 	kill $$(cat tmp/httpd_anchor.pid)
@@ -19,7 +24,7 @@ stopcryptoserver:
 	/sbin/start-stop-daemon --stop --pidfile  /tmp/cryptoserver.pid
 
 testenv:
-	docker run --rm -p 8890:8890 -p 9999:9999 -v $$(pwd):/PDAnchor -it magwas/edemotest:master
+	docker run --rm -p 8890:8890 -p 9999:9999 -w /PDAnchor -v $$(pwd):/PDAnchor -it magwas/edemotest:master
 
 messages.po: $(wildcard src/*.py) $(wildcard cryptoserver/*.py)
 	xgettext -L Python -j --package-name=PDAnchor src/*.py cryptoserver/*.py
