@@ -3,8 +3,13 @@ all: hu.po test killserver
 test: runcryptoserver runserver
 	./runtests.sh
 
-runserver: runcryptoserver
+runserver: restartsyslog runcryptoserver
 	mkdir -p tmp;SOFTHSM_CONF=testserver/softhsm.conf apache2 -X -f $$(pwd)/testserver/apache2.conf &
+
+restartsyslog:
+	cp testserver/syslog-ng.conf /etc/syslog-ng/syslog-ng.conf
+	service syslog-ng restart
+	cat /dev/xconsole&
 
 killserver: stopcryptoserver
 	kill $$(cat tmp/httpd_anchor.pid)
