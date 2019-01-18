@@ -5,7 +5,7 @@ inputlength = 256
 outputlength = 256
 excAnswer = "<exception>{0}<trace>{1}</trace></exception>"
 minimum_time = 0
-pkcs11lib = "/usr/lib/softhsm/libsofthsm.so"
+pkcs11lib = "/usr/lib/softhsm/libsofthsm2.so"
 #the index of the key in the token
 tokenObjectIndex = 1
 #index of the slot of the token

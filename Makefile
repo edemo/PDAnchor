@@ -4,7 +4,7 @@ test: runcryptoserver runserver
 	./runtests.sh
 
 runserver: restartsyslog runcryptoserver
-	mkdir -p tmp;SOFTHSM_CONF=testserver/softhsm.conf apache2 -X -f $$(pwd)/testserver/apache2.conf &
+	mkdir -p tmp; apache2 -X -f $$(pwd)/testserver/apache2.conf &
 
 restartsyslog:
 	cp testserver/syslog-ng.conf /etc/syslog-ng/syslog-ng.conf
@@ -18,7 +18,7 @@ clean:
 	rm -rf tmp
 
 runcryptoserver:
-	/sbin/start-stop-daemon --start --background  --pidfile  /tmp/cryptoserver.pid --make-pidfile -d $(CURDIR) --exec cryptoserver/cryptoserver.py -- -H 0.0.0.0 --module /usr/lib/softhsm/libsofthsm.so -d d34db33f -e SOFTHSM_CONF=tests/softhsm.conf;sleep 2
+	/sbin/start-stop-daemon --start --background  --pidfile  /tmp/cryptoserver.pid --make-pidfile -d $(CURDIR) --exec cryptoserver/cryptoserver.py -- -H 0.0.0.0 --module /usr/lib/softhsm/libsofthsm2.so -d d34db33f;sleep 2
 
 stopcryptoserver:
 	/sbin/start-stop-daemon --stop --pidfile  /tmp/cryptoserver.pid

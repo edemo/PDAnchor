@@ -4,7 +4,7 @@ cryptoserver_host = "localhost"
 cryptoserver_port = 9999
 outputlength = 256
 inputlength = 256
-pkcs11lib = "/usr/lib/softhsm/libsofthsm.so" 
+pkcs11lib = "/usr/lib/softhsm/libsofthsm2.so" 
 #the index of the key in the token
 tokenObjectIndex = 1
 #index of the slot of the token

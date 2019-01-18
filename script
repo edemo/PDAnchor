@@ -1,4 +1,9 @@
 #!/bin/bash
+set -xe
+ln -sf /usr/local/lib/python3.*/dist-packages/mod_wsgi/server/mod_wsgi-*-x86_64-linux-gnu.so /usr/lib/apache2/modules/mod_wsgi.so
+rm -rf /var/lib/softhsm/tokens/
+mkdir -p /var/lib/softhsm/tokens/
+softhsm2-util --init-token --slot 0 --label "token" --so-pin 0000 --pin 0000
+softhsm2-util --import testserver/key.p8 --token token --label d34db33f --pin 0000 --id d34db33f
 export PATH=/firefox:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-pip3 install enforce
 make test
