@@ -17,8 +17,11 @@ killserver: stopcryptoserver
 clean:
 	rm -rf tmp
 
-runcryptoserver:
+runcryptoserver: preparesofthsm
 	/sbin/start-stop-daemon --start --background  --pidfile  /tmp/cryptoserver.pid --make-pidfile -d $(CURDIR) --exec cryptoserver/cryptoserver.py -- -H 0.0.0.0 --module /usr/lib/softhsm/libsofthsm2.so -d d34db33f;sleep 2
+
+preparesofthsm:
+	tools/preparesofthsm
 
 stopcryptoserver:
 	/sbin/start-stop-daemon --stop --pidfile  /tmp/cryptoserver.pid
