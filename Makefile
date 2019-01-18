@@ -24,7 +24,7 @@ stopcryptoserver:
 	/sbin/start-stop-daemon --stop --pidfile  /tmp/cryptoserver.pid
 
 testenv:
-	docker run --rm -p 8890:8890 -p 9999:9999 -w /PDAnchor -v $$(pwd):/PDAnchor -it magwas/edemotest:master
+	docker run --rm -p 8890:8890 -p 9999:9999 -w /PDAnchor -v $$(pwd):/PDAnchor -it edemo/pdoauth:latest
 
 messages.po: $(wildcard src/*.py) $(wildcard cryptoserver/*.py)
 	xgettext -L Python -j --package-name=PDAnchor src/*.py cryptoserver/*.py
