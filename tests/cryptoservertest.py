@@ -35,7 +35,7 @@ class CryproServerTest(unittest.TestCase):
         self.fixture.syslog = FakeSyslog()
 
         self.fixture.opts = Bunch(
-            module="/usr/lib/softhsm/libsofthsm.so",
+            module="/usr/lib/softhsm/libsofthsm2.so",
             pin="0000",
             keyid="d34db33f",
             mechanism="SHA512-RSA-PKCS",
@@ -62,7 +62,7 @@ class CryproServerTest(unittest.TestCase):
         commandLine = self.fixture.compileCommandLine("theName")
         self.assertEqual([
                 'pkcs11-tool',
-                '--module', '/usr/lib/softhsm/libsofthsm.so',
+                '--module', '/usr/lib/softhsm/libsofthsm2.so',
                 '-l',
                 '-p', '0000',
                 '-d', 'd34db33f',
@@ -75,7 +75,7 @@ class CryproServerTest(unittest.TestCase):
         commandLine = self.fixture.compileWakeupCommandLine()
         self.assertEqual([
                 'pkcs11-tool',
-                '--module', '/usr/lib/softhsm/libsofthsm.so',
+                '--module', '/usr/lib/softhsm/libsofthsm2.so',
                 '-O'
             ], commandLine)
 
@@ -96,7 +96,7 @@ class CryproServerTest(unittest.TestCase):
     def test_runCommand_logs_catches_errors(self):
         with self.assertRaises(RuntimeError):
             self.fixture.runCommand(b"hello world", ["ajj"])
-        self.assertEqual("problem running command: [Errno 2] No such file or directory: 'ajj'",self.fixture.syslog.logged[-1])
+        self.assertEqual("problem running command: [Errno 2] No such file or directory: 'ajj': 'ajj'",self.fixture.syslog.logged[-1])
 
     def test_input_length_is_checked(self):
         self.fixture.request = FakeRequest(b"a"*511)
@@ -128,13 +128,13 @@ class CryproServerTest(unittest.TestCase):
         self.fixture.opts.verbose=1
         self.fixture.handle()
         self.assertEqual(6, len(self.fixture.syslog.logged))
-        self.assertEqual("['pkcs11-tool', '--module', '/usr/lib/softhsm/libsofthsm.so', '-O']",self.fixture.syslog.logged[0])
+        self.assertEqual("['pkcs11-tool', '--module', '/usr/lib/softhsm/libsofthsm2.so', '-O']",self.fixture.syslog.logged[0])
         self.assertEqual("b''",self.fixture.syslog.logged[1])
-        self.assertEqual("b'Using slot 0 with a present token (0x0)\\n'",self.fixture.syslog.logged[2])
+        self.assertIn('Using slot 0 with a present token ', str(self.fixture.syslog.logged[2]))
         self.assertTrue(self.fixture.syslog.logged[3].startswith(
-            "['pkcs11-tool', '--module', '/usr/lib/softhsm/libsofthsm.so', '-l', '-p', '0000', '-d', 'd34db33f', '-m', 'SHA512-RSA-PKCS', '-s', '-o',"))
-        self.assertEqual("b'Using signature algorithm SHA512-RSA-PKCS\\n'",self.fixture.syslog.logged[4])
-        self.assertEqual("b'Using slot 0 with a present token (0x0)\\n'",self.fixture.syslog.logged[5])
+            "['pkcs11-tool', '--module', '/usr/lib/softhsm/libsofthsm2.so', '-l', '-p', '0000', '-d', 'd34db33f', '-m', 'SHA512-RSA-PKCS', '-s', '-o',"))
+        self.assertIn('Using signature algorithm SHA512-RSA-PKCS',self.fixture.syslog.logged[5])
+        self.assertIn('Using slot 0 with a present token ',self.fixture.syslog.logged[5])
 
     def test_wake_up_tries_twice__raises_error_and_takes_time_if_fails(self):
         self.fixture.opts.module = 'badModule'

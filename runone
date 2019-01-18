@@ -1,4 +1,3 @@
 #!/bin/bash
 export PYTHONPATH=src:tests:cryptoserver:integrationtests
-export SOFTHSM_CONF=tests/softhsm.conf
 /usr/bin/python3 -m unittest $1
